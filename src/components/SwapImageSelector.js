@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "semantic-ui-react";
 import styled from "styled-components";
 
 import CoverOptions from "./CoverOptions";
@@ -6,12 +7,14 @@ import PhotoOptions from "./PhotoOptions";
 
 class SwapImageSelector extends Component {
   state = {
-    photoOptionsView: false
+    photoOptionsView: false,
+    buttonText: false
   };
 
   togglePhotoOptions = async () => {
     try {
       this.setState({ photoOptionsView: !this.state.photoOptionsView });
+      this.setState({ buttonText: !this.state.buttonText });
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
@@ -21,7 +24,13 @@ class SwapImageSelector extends Component {
   render() {
     return (
       <SelectorWrapper>
-        <button onClick={this.togglePhotoOptions}>Toggle View</button>
+        <ButtonWrapper>
+          <Button inverted color="blue" onClick={this.togglePhotoOptions}>
+            {this.state.buttonText
+              ? "Switch to Picture View"
+              : "Switch to Cover View"}
+          </Button>
+        </ButtonWrapper>
         {this.state.photoOptionsView ? <CoverOptions /> : <PhotoOptions />}
       </SelectorWrapper>
     );
@@ -30,4 +39,10 @@ class SwapImageSelector extends Component {
 
 export default SwapImageSelector;
 
-const SelectorWrapper = styled.div``;
+const SelectorWrapper = styled.div`
+  text-align: center;
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 20px 0;
+`;

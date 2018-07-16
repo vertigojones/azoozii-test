@@ -4,7 +4,7 @@ class CoverOptions extends Component {
     render() {
         return (
             <div>
-                CoverView
+                CoverOptions
             </div>
         );
     }

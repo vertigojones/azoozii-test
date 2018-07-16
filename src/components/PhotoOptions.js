@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button, Card, Image } from "semantic-ui-react";
 import styled from "styled-components";
 //import axios from "axios";
 
@@ -10,12 +11,12 @@ const pictures = [
 
   {
     id: "002",
-    photoUrl: "http://www.placecage.com/201/300"
+    photoUrl: "http://www.fillmurray.com/200/300"
   },
 
   {
     id: "003",
-    photoUrl: "http://www.placecage.com/202/300"
+    photoUrl: "http://www.stevensegallery.com/200/300"
   }
 ];
 
@@ -23,13 +24,38 @@ class PhotoOptions extends Component {
   render() {
     const samplePictures = pictures.map(individualPicture => {
       return (
-        <ImageWrapper>
-          <img src={individualPicture.photoUrl} alt={individualPicture.id} />
-        </ImageWrapper>
+        <CardWrapper>
+          <Card>
+            <Card.Content>
+              <Image
+                key={individualPicture.id}
+                src={individualPicture.photoUrl}
+                size="large"
+                bordered
+              />
+            </Card.Content>
+            <Card.Content extra>
+              <div className="ui two buttons">
+                <Button basic color="green">
+                  Select
+                </Button>
+                <Button basic color="red">
+                  Remove
+                </Button>
+              </div>
+            </Card.Content>
+          </Card>
+        </CardWrapper>
       );
     });
 
-    return <PhotoOptionsWrapper>{samplePictures}</PhotoOptionsWrapper>;
+    return (
+      <PhotoOptionsWrapper>
+        <CardGroupWrapper>
+          <Card.Group>{samplePictures}</Card.Group>
+        </CardGroupWrapper>
+      </PhotoOptionsWrapper>
+    );
   }
 }
 
@@ -37,4 +63,15 @@ export default PhotoOptions;
 
 const PhotoOptionsWrapper = styled.div``;
 
-const ImageWrapper = styled.div``;
+const CardGroupWrapper = styled.div`
+  display: flex;
+  flex-flow: row-reverse wrap-reverse;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: flex-start;
+`;
+
+const CardWrapper = styled.div`
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 20px;
+`;
