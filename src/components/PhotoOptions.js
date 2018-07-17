@@ -36,9 +36,26 @@ class PhotoOptions extends Component {
             </Card.Content>
             <Card.Content extra>
               <div className="ui two buttons">
-                <Button basic color="green">
-                  Select
-                </Button>
+                <Modal
+                  trigger={
+                    <Button basic color="green">
+                      Select
+                    </Button>
+                  }
+                >
+                  <Header icon="check" content="Select Photo" />
+                  <Modal.Content>
+                    <p>Are you sure you want to use this image?</p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button color="red" inverted>
+                      <Icon name="remove" /> No
+                    </Button>
+                    <Button color="green" inverted>
+                      <Icon name="checkmark" /> Yes
+                    </Button>
+                  </Modal.Actions>
+                </Modal>
                 <Modal
                   trigger={
                     <Button basic color="red">
