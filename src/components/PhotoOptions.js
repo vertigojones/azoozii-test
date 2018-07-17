@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Button, Card, Image, Header, Icon, Modal } from "semantic-ui-react";
 import styled from "styled-components";
 //import axios from "axios";
 
@@ -39,9 +39,26 @@ class PhotoOptions extends Component {
                 <Button basic color="green">
                   Select
                 </Button>
-                <Button basic color="red">
-                  Remove
-                </Button>
+                <Modal
+                  trigger={
+                    <Button basic color="red">
+                      Remove
+                    </Button>
+                  }
+                >
+                  <Header icon="delete" content="Remove Photo" />
+                  <Modal.Content>
+                    <p>Are you sure you want to delete this image?</p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button color="red" inverted>
+                      <Icon name="remove" /> No
+                    </Button>
+                    <Button color="green" inverted>
+                      <Icon name="checkmark" /> Yes
+                    </Button>
+                  </Modal.Actions>
+                </Modal>
               </div>
             </Card.Content>
           </Card>
