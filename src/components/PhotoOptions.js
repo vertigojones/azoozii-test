@@ -1,7 +1,90 @@
 import React, { Component } from "react";
-import { Button, Card, Image, Header, Icon, Modal } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  Image,
+  Header,
+  Icon,
+  Dropdown,
+  Menu
+} from "semantic-ui-react";
 import styled from "styled-components";
 //import axios from "axios";
+
+const testSubject = {
+  name: "Orders API Get All",
+  status: "SUCCESS",
+  timestamps: {
+    timestamp: 1530303194.811859,
+    timestamp_formatted: "2018-06-29_04:13:14pm",
+    elapsed_time: 0.21451020240783691
+  },
+  data: {
+    orders: [
+      {
+        _id: {
+          $oid: "5b183f1588f92904825d5105"
+        },
+        state: "CREATED",
+        project_name: "Unity Camp",
+        project_id: "5b195917e7179a074bec4e35",
+        program_name: "2018 Camp Barney",
+        program_id: "5b195970e7179a074bec4e3e",
+        name: "Hollahan, Thomas",
+        environment: [
+          {
+            name: "firstName",
+            value: "Thomas"
+          },
+          {
+            name: "nickName",
+            value: ""
+          },
+          {
+            name: "lastName",
+            value: "Hollahan"
+          },
+          {
+            name: "cabin",
+            value: "A"
+          }
+        ],
+        reference_asset: true,
+        headshot_asset: true,
+        headshot_verified: true
+      },
+      {
+        _id: {
+          $oid: "5b3458af88f929566736aa31"
+        },
+        state: "CREATED",
+        project_name: "Unity Camp",
+        project_id: "5b195917e7179a074bec4e35",
+        program_name: "2018 Camp Barney",
+        program_id: "5b195970e7179a074bec4e3e",
+        ID: "5b195970e7179a074bec4e3e",
+        reference_asset: false,
+        headshot_asset: false,
+        headshot_verified: true,
+        name: "Allen, Bryson",
+        environment: [
+          {
+            firstName: "Bryson"
+          },
+          {
+            nickName: ""
+          },
+          {
+            lastName: "Allen"
+          },
+          {
+            cabin: "B"
+          }
+        ]
+      }
+    ]
+  }
+};
 
 const pictures = [
   {
@@ -22,6 +105,10 @@ const pictures = [
 
 class PhotoOptions extends Component {
   render() {
+    const sampleUsers = testSubject.data.orders.map(individualOrder => {
+      return <Dropdown.Item>{individualOrder.name}</Dropdown.Item>;
+    });
+
     const samplePictures = pictures.map(individualPicture => {
       return (
         <CardWrapper>
@@ -34,50 +121,6 @@ class PhotoOptions extends Component {
                 bordered
               />
             </Card.Content>
-            <Card.Content extra>
-              <div className="ui two buttons">
-                <Modal
-                  trigger={
-                    <Button basic color="green">
-                      Select
-                    </Button>
-                  }
-                >
-                  <Header icon="check" content="Select Photo" />
-                  <Modal.Content>
-                    <p>Are you sure you want to use this image?</p>
-                  </Modal.Content>
-                  <Modal.Actions>
-                    <Button color="red" inverted>
-                      <Icon name="remove" /> No
-                    </Button>
-                    <Button color="green" inverted>
-                      <Icon name="checkmark" /> Yes
-                    </Button>
-                  </Modal.Actions>
-                </Modal>
-                <Modal
-                  trigger={
-                    <Button basic color="red">
-                      Remove
-                    </Button>
-                  }
-                >
-                  <Header icon="delete" content="Remove Photo" />
-                  <Modal.Content>
-                    <p>Are you sure you want to delete this image?</p>
-                  </Modal.Content>
-                  <Modal.Actions>
-                    <Button color="red" inverted>
-                      <Icon name="remove" /> No
-                    </Button>
-                    <Button color="green" inverted>
-                      <Icon name="checkmark" /> Yes
-                    </Button>
-                  </Modal.Actions>
-                </Modal>
-              </div>
-            </Card.Content>
           </Card>
         </CardWrapper>
       );
@@ -85,9 +128,26 @@ class PhotoOptions extends Component {
 
     return (
       <PhotoOptionsWrapper>
+        <Header as="h2" icon textAlign="center">
+          <Icon name="users" />
+          <Header.Content>
+            Swap Image Selector
+            <Header.Subheader>Manage your photo preferences</Header.Subheader>
+          </Header.Content>
+        </Header>
+        <DropdownWrapper>
+          <Menu vertical>
+            <Dropdown item text="User">
+              <Dropdown.Menu>{sampleUsers}</Dropdown.Menu>
+            </Dropdown>
+          </Menu>
+        </DropdownWrapper>
         <CardGroupWrapper>
           <Card.Group>{samplePictures}</Card.Group>
         </CardGroupWrapper>
+        <ButtonWrapper>
+          <Button positive>Choose selected photo</Button>
+        </ButtonWrapper>
       </PhotoOptionsWrapper>
     );
   }
@@ -95,17 +155,29 @@ class PhotoOptions extends Component {
 
 export default PhotoOptions;
 
-const PhotoOptionsWrapper = styled.div``;
+const PhotoOptionsWrapper = styled.div`
+  /* margin: 0 10vw; */
+`;
 
 const CardGroupWrapper = styled.div`
   display: flex;
-  flex-flow: row-reverse wrap-reverse;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-around;
-  align-items: flex-start;
-  align-content: flex-start;
+`;
+
+const DropdownWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px;
 `;
 
 const CardWrapper = styled.div`
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 20px;
+`;
+
+const ButtonWrapper = styled.div`
+  text-align: center;
   margin: 20px;
 `;
