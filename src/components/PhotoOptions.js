@@ -6,9 +6,11 @@ import {
   Header,
   Icon,
   Dropdown,
-  Menu
+  Menu,
+  Segment
 } from "semantic-ui-react";
 import styled from "styled-components";
+import IndividualImage from "./IndividualImage";
 //import axios from "axios";
 
 const testSubject = {
@@ -105,24 +107,19 @@ const pictures = [
 
 class PhotoOptions extends Component {
   render() {
-    const sampleUsers = testSubject.data.orders.map(individualOrder => {
-      return <Dropdown.Item>{individualOrder.name}</Dropdown.Item>;
-    });
+    const sampleUsers = testSubject.data.orders.map(
+      (individualOrder, index) => {
+        return (
+          <Dropdown.Item key={index}>{individualOrder.name}</Dropdown.Item>
+        );
+      }
+    );
 
-    const samplePictures = pictures.map(individualPicture => {
+    const samplePictures = pictures.map(picture => {
       return (
-        <CardWrapper>
-          <Card>
-            <Card.Content>
-              <Image
-                key={individualPicture.id}
-                src={individualPicture.photoUrl}
-                size="large"
-                bordered
-              />
-            </Card.Content>
-          </Card>
-        </CardWrapper>
+        <PhotoWrapper>
+          <IndividualImage key={picture.id} photoUrl={picture.photoUrl} />
+        </PhotoWrapper>
       );
     });
 
@@ -142,12 +139,10 @@ class PhotoOptions extends Component {
             </Dropdown>
           </Menu>
         </DropdownWrapper>
-        <CardGroupWrapper>
-          <Card.Group>{samplePictures}</Card.Group>
-        </CardGroupWrapper>
-        <ButtonWrapper>
-          <Button positive>Choose selected photo</Button>
-        </ButtonWrapper>
+        <PhotoGroupWrapper>{samplePictures}</PhotoGroupWrapper>
+        <SegmentWrapper>
+          <Segment>Please select an image</Segment>
+        </SegmentWrapper>
       </PhotoOptionsWrapper>
     );
   }
@@ -159,7 +154,7 @@ const PhotoOptionsWrapper = styled.div`
   /* margin: 0 10vw; */
 `;
 
-const CardGroupWrapper = styled.div`
+const PhotoGroupWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -172,12 +167,12 @@ const DropdownWrapper = styled.div`
   margin: 20px;
 `;
 
-const CardWrapper = styled.div`
+const PhotoWrapper = styled.div`
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin: 20px;
 `;
 
-const ButtonWrapper = styled.div`
-  text-align: center;
-  margin: 20px;
+const SegmentWrapper = styled.div`
+  width: 200px;
+  margin:0 auto;
 `;
