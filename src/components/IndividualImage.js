@@ -9,14 +9,12 @@ class IndividualImage extends Component {
 
   render() {
     const selectedImageStyle = {
-      borderStyle:
-        this.props.id === this.props.selectedPhotoId ? "solid" : "solid",
-      padding: this.props.id === this.props.selectedPhotoId ? "10px" : "10px",
-      borderWidth:
-        this.props.id === this.props.selectedPhotoId ? "20px" : "20px",
+      borderStyle: "solid",
+      padding: "10px",
+      borderWidth: "20px",
+      borderRadius: "5px",
       borderColor:
-        this.props.id === this.props.selectedPhotoId ? "green" : "#e8e8e8",
-      borderRadius: this.props.id === this.props.selectedPhotoId ? "5px" : "5px"
+        this.props.id === this.props.selectedPhotoId ? "green" : "#e8e8e8"
     };
 
     return (
