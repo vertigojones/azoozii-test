@@ -106,6 +106,10 @@ const pictures = [
 ];
 
 class PhotoOptions extends Component {
+  state = {
+    selectedPhotoId: null
+  };
+
   render() {
     const sampleUsers = testSubject.data.orders.map(
       (individualOrder, index) => {
@@ -117,9 +121,9 @@ class PhotoOptions extends Component {
 
     const samplePictures = pictures.map(picture => {
       return (
-        <PhotoWrapper>
+        <div>
           <IndividualImage key={picture.id} photoUrl={picture.photoUrl} />
-        </PhotoWrapper>
+        </div>
       );
     });
 
@@ -159,6 +163,7 @@ const PhotoGroupWrapper = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding: 50px;
 `;
 
 const DropdownWrapper = styled.div`
@@ -167,12 +172,7 @@ const DropdownWrapper = styled.div`
   margin: 20px;
 `;
 
-const PhotoWrapper = styled.div`
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin: 20px;
-`;
-
 const SegmentWrapper = styled.div`
   width: 200px;
-  margin:0 auto;
+  margin: 0 auto;
 `;
