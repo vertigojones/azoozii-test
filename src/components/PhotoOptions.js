@@ -1,16 +1,8 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Card,
-  Image,
-  Header,
-  Icon,
-  Dropdown,
-  Menu,
-  Segment
-} from "semantic-ui-react";
+import { Header, Icon, Dropdown, Menu, Segment } from "semantic-ui-react";
 import styled from "styled-components";
 import IndividualImage from "./IndividualImage";
+import _ from "lodash";
 //import axios from "axios";
 
 const testSubject = {
@@ -110,6 +102,14 @@ class PhotoOptions extends Component {
     selectedPhotoId: null
   };
 
+  selectPhoto = photoId => {
+    this.setState(prevState => {
+      return {
+        selectedPhotoId: prevState.selectedPhotoId === photoId ? null : photoId
+      };
+    });
+  };
+
   render() {
     const sampleUsers = testSubject.data.orders.map(
       (individualOrder, index) => {
@@ -122,10 +122,18 @@ class PhotoOptions extends Component {
     const samplePictures = pictures.map(picture => {
       return (
         <div>
-          <IndividualImage key={picture.id} photoUrl={picture.photoUrl} />
+          <IndividualImage
+            key={picture.id}
+            photoUrl={picture.photoUrl}
+            id={picture.id}
+            selectedPhotoId={this.state.selectedPhotoId}
+            selectPhoto={this.selectPhoto}
+          />
         </div>
       );
     });
+
+    const selectedPhoto = _.find(pictures, { id: this.state.selectedPhotoId });
 
     return (
       <PhotoOptionsWrapper>
@@ -145,7 +153,11 @@ class PhotoOptions extends Component {
         </DropdownWrapper>
         <PhotoGroupWrapper>{samplePictures}</PhotoGroupWrapper>
         <SegmentWrapper>
-          <Segment>Please select an image</Segment>
+          <Segment>
+            {selectedPhoto
+              ? `You have selected photo ${selectedPhoto.id}`
+              : "Please select a photo"}
+          </Segment>
         </SegmentWrapper>
       </PhotoOptionsWrapper>
     );
