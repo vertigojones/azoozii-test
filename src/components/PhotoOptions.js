@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Header, Icon, Dropdown, Menu, Segment } from "semantic-ui-react";
+import { Header, Icon, Dropdown, Segment } from "semantic-ui-react";
 import styled from "styled-components";
 import IndividualImage from "./IndividualImage";
 import _ from "lodash";
@@ -103,7 +103,7 @@ class PhotoOptions extends Component {
   };
 
   selectPhoto = photoId => {
-    this.setState({selectedPhotoId: photoId})
+    this.setState({ selectedPhotoId: photoId });
   };
 
   render() {
@@ -141,11 +141,7 @@ class PhotoOptions extends Component {
           </Header.Content>
         </Header>
         <DropdownWrapper>
-          <Menu vertical>
-            <Dropdown item text="User">
-              <Dropdown.Menu>{sampleUsers}</Dropdown.Menu>
-            </Dropdown>
-          </Menu>
+          <Dropdown placeholder="User" fluid selection options={sampleUsers} />
         </DropdownWrapper>
         <PhotoGroupWrapper>{samplePictures}</PhotoGroupWrapper>
         <SegmentWrapper>
@@ -177,11 +173,11 @@ const PhotoGroupWrapper = styled.div`
 const DropdownWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px;
+  width: 220px;
+  margin: 0 auto;
 `;
 
 const SegmentWrapper = styled.div`
   width: 220px;
-  display: flex;
   margin: 0 auto;
 `;
