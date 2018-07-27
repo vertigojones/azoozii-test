@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 class IndividualImage extends Component {
   handleClick = () => {
-    this.props.selectPhoto();
+    this.props.selectPhoto(this.props.id);
   };
 
   render() {
@@ -34,6 +34,7 @@ export default IndividualImage;
 
 const IndividualPhotoWrapper = styled.div`
   margin: 20px;
+
   img:hover {
     cursor: pointer;
   }

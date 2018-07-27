@@ -103,11 +103,7 @@ class PhotoOptions extends Component {
   };
 
   selectPhoto = photoId => {
-    this.setState(prevState => {
-      return {
-        selectedPhotoId: prevState.selectedPhotoId === photoId ? null : photoId
-      };
-    });
+    this.setState({selectedPhotoId: photoId})
   };
 
   render() {
