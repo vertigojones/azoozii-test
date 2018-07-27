@@ -155,7 +155,7 @@ class PhotoOptions extends Component {
         <SegmentWrapper>
           <Segment>
             {selectedPhoto
-              ? `You have selected photo ${selectedPhoto.id}`
+              ? `You have selected ${selectedPhoto.id}`
               : "Please select a photo"}
           </Segment>
         </SegmentWrapper>
@@ -185,6 +185,6 @@ const DropdownWrapper = styled.div`
 `;
 
 const SegmentWrapper = styled.div`
-  width: 200px;
+  width: 220px;
   margin: 0 auto;
 `;
