@@ -182,5 +182,6 @@ const DropdownWrapper = styled.div`
 
 const SegmentWrapper = styled.div`
   width: 220px;
+  display: flex;
   margin: 0 auto;
 `;
