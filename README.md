@@ -9,3 +9,6 @@ App.js
     |           CoverOptions.js
     |
     PhotoOptions.js
+      |
+      IndividualImage.js
+      
