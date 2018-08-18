@@ -29,7 +29,7 @@ class IndividualImage extends Component {
         </IndividualPhotoWrapper>
         <ModalWrapper>
           <Modal
-            size="small"
+            size="tiny"
             trigger={<Button>Full Size Image</Button>}
             closeIcon
           >
