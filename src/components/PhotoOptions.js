@@ -83,17 +83,20 @@ const testSubject = {
 const pictures = [
   {
     id: "001",
-    photoUrl: "http://www.placecage.com/200/300"
+    thumbnailUrl: "http://www.placecage.com/200/300",
+    photoUrl: "http://www.placecage.com/400/600"
   },
 
   {
     id: "002",
-    photoUrl: "http://www.fillmurray.com/200/300"
+    thumbnailUrl: "http://www.fillmurray.com/200/300",
+    photoUrl: "http://www.fillmurray.com/400/600"
   },
 
   {
     id: "003",
-    photoUrl: "http://www.stevensegallery.com/200/300"
+    thumbnailUrl: "http://www.stevensegallery.com/200/300",
+    photoUrl: "http://www.stevensegallery.com/400/600"
   }
 ];
 
@@ -119,7 +122,7 @@ class PhotoOptions extends Component {
       return (
         <div>
           <IndividualImage
-            key={picture.id}
+            thumbnailUrl={picture.thumbnailUrl}
             photoUrl={picture.photoUrl}
             id={picture.id}
             selectedPhotoId={this.state.selectedPhotoId}
@@ -166,8 +169,8 @@ const PhotoGroupWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 50px;
+  justify-content: center;
+  padding: 30px;
 `;
 
 const DropdownWrapper = styled.div`

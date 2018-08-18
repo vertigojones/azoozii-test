@@ -25,7 +25,7 @@ class SwapImageSelector extends Component {
     return (
       <SelectorWrapper>
         <ButtonWrapper>
-          <Button style={{ width: "210px" }} inverted color="blue" onClick={this.togglePhotoOptions}>
+          <Button style={{ width: "220px" }} inverted color="blue" onClick={this.togglePhotoOptions}>
             {this.state.buttonText
               ? "Switch to Picture View"
               : "Switch to Cover View"}

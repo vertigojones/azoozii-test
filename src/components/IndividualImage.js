@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image } from "semantic-ui-react";
+import { Image, Button, Modal } from "semantic-ui-react";
 import styled from "styled-components";
 
 class IndividualImage extends Component {
@@ -18,14 +18,27 @@ class IndividualImage extends Component {
     };
 
     return (
-      <IndividualPhotoWrapper>
-        <Image
-          style={selectedImageStyle}
-          src={this.props.photoUrl}
-          alt={this.props.id}
-          onClick={this.handleClick}
-        />
-      </IndividualPhotoWrapper>
+      <div>
+        <IndividualPhotoWrapper>
+          <Image
+            style={selectedImageStyle}
+            src={this.props.thumbnailUrl}
+            alt={this.props.id}
+            onClick={this.handleClick}
+          />
+        </IndividualPhotoWrapper>
+        <ModalWrapper>
+          <Modal
+            size="small"
+            trigger={<Button>Full Size Image</Button>}
+            closeIcon
+          >
+            <Modal.Content image>
+              <Image src={this.props.photoUrl} centred />
+            </Modal.Content>
+          </Modal>
+        </ModalWrapper>
+      </div>
     );
   }
 }
@@ -39,3 +52,5 @@ const IndividualPhotoWrapper = styled.div`
     cursor: pointer;
   }
 `;
+
+const ModalWrapper = styled.div``;
