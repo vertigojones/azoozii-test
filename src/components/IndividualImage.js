@@ -29,8 +29,8 @@ class IndividualImage extends Component {
         </IndividualPhotoWrapper>
         <ModalWrapper>
           <Modal
-            size="tiny"
-            trigger={<Button>Full Size Image</Button>}
+            basic size="tiny"
+            trigger={<Button>Preview Image</Button>}
             closeIcon
           >
             <Modal.Content image>
