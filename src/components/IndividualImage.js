@@ -11,7 +11,7 @@ class IndividualImage extends Component {
     const selectedImageStyle = {
       borderStyle: "solid",
       padding: "10px",
-      borderWidth: "20px",
+      borderWidth: "10px",
       borderRadius: "5px",
       borderColor:
         this.props.id === this.props.selectedPhotoId ? "green" : "#e8e8e8"
@@ -30,7 +30,7 @@ class IndividualImage extends Component {
         <ModalWrapper>
           <Modal
             basic size="tiny"
-            trigger={<Button>Preview Image</Button>}
+            trigger={<Button>Image Preview</Button>}
             closeIcon
           >
             <Modal.Content image>
