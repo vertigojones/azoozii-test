@@ -3,7 +3,7 @@ import { Button } from "semantic-ui-react";
 import styled from "styled-components";
 
 import CoverOptions from "./CoverOptions";
-import PhotoOptions from "./PhotoOptions";
+import PhotoComponents from "./PhotoComponents";
 
 class SwapImageSelector extends Component {
   state = {
@@ -31,7 +31,7 @@ class SwapImageSelector extends Component {
               : "Switch to Cover View"}
           </Button>
         </ButtonWrapper>
-        {this.state.photoOptionsView ? <CoverOptions /> : <PhotoOptions />}
+        {this.state.photoOptionsView ? <CoverOptions /> : <PhotoComponents />}
       </SelectorWrapper>
     );
   }
