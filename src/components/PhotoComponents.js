@@ -257,11 +257,24 @@ const testSubject = {
 
 class PhotoComponents extends Component {
   state = {
+    selectedPhotosArray: [],
     selectedPhotoId: null
   };
 
   selectPhoto = photoId => {
     this.setState({ selectedPhotoId: photoId });
+  };
+
+  selected = async () => {
+    try {
+      const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
+      selectedPhotosArrayClone.push(this.state.selectedPhotoId);
+      console.log(this.state.selectedPhotoId)
+      this.setState({ selectedPhotosArray: selectedPhotosArrayClone });
+    } catch (err) {
+      console.log(err);
+      this.setState({ err: err.message });
+    }
   };
 
   render() {
@@ -270,36 +283,39 @@ class PhotoComponents extends Component {
       { id: this.state.selectedPhotoId }
     );
 
-    const singleComponent = testSubject.products[0].spreads.map(component => {
-      return (
-        <div>
-          <h1>{component.name}</h1>
-          <SelectionWrapper>
-            {component.swaps[0].image[0].assets.map(picture => {
-              return (
-                <PhotoGroupWrapper>
-                  <IndividualImage
-                    thumbnailUrl={picture.thumbnailUrl}
-                    photoUrl={picture.photoUrl}
-                    id={picture.id}
-                    selectedPhotoId={this.state.selectedPhotoId}
-                    selectPhoto={this.selectPhoto}
-                  />
-                </PhotoGroupWrapper>
-              );
-            })}
-          </SelectionWrapper>
-          <SegmentWrapper>
-            <Segment>
-              {selectedPhoto
-                ? `You have selected ${selectedPhoto.id}`
-                : "Please select a photo"}
-            </Segment>
-          </SegmentWrapper>
-          <hr />
-        </div>
-      );
-    });
+    const singleComponent = testSubject.products[0].spreads.map(
+      (component, index) => {
+        return (
+          <div key={index}>
+            <h1>{component.name}</h1>
+            <SelectionWrapper>
+              {component.swaps[0].image[0].assets.map(picture => {
+                return (
+                  <PhotoGroupWrapper key={picture.id}>
+                    <IndividualImage
+                      thumbnailUrl={picture.thumbnailUrl}
+                      photoUrl={picture.photoUrl}
+                      id={picture.id}
+                      selectedPhotoId={this.state.selectedPhotoId}
+                      selectPhoto={this.selectPhoto}
+                      selected={this.selected}
+                    />
+                  </PhotoGroupWrapper>
+                );
+              })}
+            </SelectionWrapper>
+            <SegmentWrapper>
+              <Segment>
+                {selectedPhoto
+                  ? `You have selected ${selectedPhoto.id}`
+                  : "Please select a photo"}
+              </Segment>
+            </SegmentWrapper>
+            <hr />
+          </div>
+        );
+      }
+    );
 
     return (
       <PhotoOptionsWrapper>
@@ -311,7 +327,7 @@ class PhotoComponents extends Component {
           </Header.Content>
         </Header>
         <DropdownWrapper>
-          <Dropdown placeholder="User" fluid selection options>
+          <Dropdown placeholder="User">
             <Dropdown.Item>
               {testSubject.environment[2].value},{" "}
               {testSubject.environment[0].value}
