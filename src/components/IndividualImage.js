@@ -29,12 +29,13 @@ class IndividualImage extends Component {
         </IndividualPhotoWrapper>
         <ModalWrapper>
           <Modal
-            basic size="tiny"
+            basic
+            size="tiny"
             trigger={<Button>Image Preview</Button>}
             closeIcon
           >
             <Modal.Content image>
-              <Image src={this.props.photoUrl} centred />
+              <Image src={this.props.photoUrl} />
             </Modal.Content>
           </Modal>
         </ModalWrapper>

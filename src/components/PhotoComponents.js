@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Header, Icon, Dropdown, Segment } from "semantic-ui-react";
+import { Header, Icon, Dropdown, Segment, Button } from "semantic-ui-react";
 import styled from "styled-components";
 import IndividualImage from "./IndividualImage";
 import _ from "lodash";
@@ -263,6 +263,10 @@ class PhotoComponents extends Component {
 
   selectPhoto = photoId => {
     this.setState({ selectedPhotoId: photoId });
+  };
+
+  handleClick = async () => {
+    // grab photo id and push to an empty array when button is clicked
     try {
       const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
       selectedPhotosArrayClone.push(this.state.selectedPhotoId);
@@ -271,45 +275,29 @@ class PhotoComponents extends Component {
       console.log(err);
       this.setState({ err: err.message });
     }
+    // move on to the next swap
   };
 
-  
   render() {
     const selectedPhoto = _.find(
       testSubject.products[0].spreads[0].swaps[0].image[0].assets,
       { id: this.state.selectedPhotoId }
     );
 
-    const singleComponent = testSubject.products[0].spreads.map(
-      (component, index) => {
+    const swapName = testSubject.products[0].spreads[0].swaps[0].image[0].name;
+
+    const singleSwapComponent = testSubject.products[0].spreads[0].swaps[0].image[0].assets.map(
+      picture => {
         return (
-          <div key={index}>
-            <h1>{component.name}</h1>
-            <SelectionWrapper>
-              {component.swaps[0].image[0].assets.map(picture => {
-                return (
-                  <PhotoGroupWrapper key={picture.id}>
-                    <IndividualImage
-                      thumbnailUrl={picture.thumbnailUrl}
-                      photoUrl={picture.photoUrl}
-                      id={picture.id}
-                      selectedPhotoId={this.state.selectedPhotoId}
-                      selectPhoto={this.selectPhoto}
-                      // selected={this.selected}
-                    />
-                  </PhotoGroupWrapper>
-                );
-              })}
-            </SelectionWrapper>
-            <SegmentWrapper>
-              <Segment>
-                {selectedPhoto
-                  ? `You have selected ${selectedPhoto.id}`
-                  : "Please select a photo"}
-              </Segment>
-            </SegmentWrapper>
-            <hr />
-          </div>
+          <SelectionWrapper key={picture.id}>
+            <IndividualImage
+              thumbnailUrl={picture.thumbnailUrl}
+              photoUrl={picture.photoUrl}
+              id={picture.id}
+              selectedPhotoId={this.state.selectedPhotoId}
+              selectPhoto={this.selectPhoto}
+            />
+          </SelectionWrapper>
         );
       }
     );
@@ -332,7 +320,22 @@ class PhotoComponents extends Component {
           </Dropdown>
         </DropdownWrapper>
         <hr />
-        <ComponentsWrapper>{singleComponent}</ComponentsWrapper>
+        <HeaderWrapper>
+          <h1>{swapName}</h1>
+        </HeaderWrapper>
+        <ComponentsWrapper>{singleSwapComponent}</ComponentsWrapper>
+        <SegmentWrapper>
+          <Segment>
+            {selectedPhoto
+              ? `You have selected ${selectedPhoto.id}`
+              : "Please select a photo"}
+          </Segment>
+          <ButtonWrapper>
+            <Button primary onClick={this.handleClick}>
+              Submit Selection
+            </Button>
+          </ButtonWrapper>
+        </SegmentWrapper>
       </PhotoOptionsWrapper>
     );
   }
@@ -341,19 +344,17 @@ class PhotoComponents extends Component {
 export default PhotoComponents;
 
 const PhotoOptionsWrapper = styled.div`
+  margin: 0;
+
   hr {
     margin: 20px 0;
   }
 `;
 
-const PhotoGroupWrapper = styled.div`
-  margin: 0;
-`;
-
 const SelectionWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const DropdownWrapper = styled.div`
@@ -369,4 +370,17 @@ const SegmentWrapper = styled.div`
   padding: 40px 0;
 `;
 
-const ComponentsWrapper = styled.div``;
+const HeaderWrapper = styled.div`
+  margin: 10px;
+  text-align: center;
+`;
+
+const ComponentsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
+const ButtonWrapper = styled.div`
+  margin: 20px;
+`;
