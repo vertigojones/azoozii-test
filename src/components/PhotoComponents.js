@@ -263,13 +263,9 @@ class PhotoComponents extends Component {
 
   selectPhoto = photoId => {
     this.setState({ selectedPhotoId: photoId });
-  };
-
-  selected = async () => {
     try {
       const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
       selectedPhotosArrayClone.push(this.state.selectedPhotoId);
-      console.log(this.state.selectedPhotoId)
       this.setState({ selectedPhotosArray: selectedPhotosArrayClone });
     } catch (err) {
       console.log(err);
@@ -277,6 +273,7 @@ class PhotoComponents extends Component {
     }
   };
 
+  
   render() {
     const selectedPhoto = _.find(
       testSubject.products[0].spreads[0].swaps[0].image[0].assets,
@@ -298,7 +295,7 @@ class PhotoComponents extends Component {
                       id={picture.id}
                       selectedPhotoId={this.state.selectedPhotoId}
                       selectPhoto={this.selectPhoto}
-                      selected={this.selected}
+                      // selected={this.selected}
                     />
                   </PhotoGroupWrapper>
                 );
