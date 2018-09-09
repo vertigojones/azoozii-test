@@ -258,25 +258,45 @@ const testSubject = {
 class PhotoComponents extends Component {
   state = {
     selectedPhotosArray: [],
-    selectedPhotoId: null
+    selectedPhotoId: null,
+    currentSwapIndex: 0
   };
 
   selectPhoto = photoId => {
     this.setState({ selectedPhotoId: photoId });
   };
 
-  handleClick = async () => {
-    // grab photo id and push to an empty array when button is clicked
+  // method for moving on to next swap
+  // function that updates selectedPhotosArray with selected photo id
+  // then adds 1 to currentSwapIndex
+  NextSwap = async () => {
     try {
       const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
       selectedPhotosArrayClone.push(this.state.selectedPhotoId);
-      this.setState({ selectedPhotosArray: selectedPhotosArrayClone });
+      this.setState({
+        selectedPhotosArray: selectedPhotosArrayClone,
+        currentSwapIndex: this.state.currentSwapIndex + 1
+      });
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
     }
-    // move on to the next swap
   };
+  // method for going back to previous swap
+  // removes 1 from currentSwapIndex
+  // function that removes photo id of that previous swap
+
+  // handleClick = async () => {
+  //   try {
+  //     const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
+  //     selectedPhotosArrayClone.push(this.state.selectedPhotoId);
+  //     this.setState({ selectedPhotosArray: selectedPhotosArrayClone,
+  //     swapIndex: this.state.swapIndex + 1 });
+  //   } catch (err) {
+  //     console.log(err);
+  //     this.setState({ err: err.message });
+  //   }
+  // };
 
   render() {
     const selectedPhoto = _.find(
@@ -284,23 +304,25 @@ class PhotoComponents extends Component {
       { id: this.state.selectedPhotoId }
     );
 
-    const swapName = testSubject.products[0].spreads[0].swaps[0].image[0].name;
+    const swapName =
+      testSubject.products[0].spreads[this.state.currentSwapIndex].swaps[0]
+        .image[0].name;
 
-    const singleSwapComponent = testSubject.products[0].spreads[0].swaps[0].image[0].assets.map(
-      picture => {
-        return (
-          <SelectionWrapper key={picture.id}>
-            <IndividualImage
-              thumbnailUrl={picture.thumbnailUrl}
-              photoUrl={picture.photoUrl}
-              id={picture.id}
-              selectedPhotoId={this.state.selectedPhotoId}
-              selectPhoto={this.selectPhoto}
-            />
-          </SelectionWrapper>
-        );
-      }
-    );
+    const singleSwapComponent = testSubject.products[0].spreads[
+      this.state.currentSwapIndex
+    ].swaps[0].image[0].assets.map(picture => {
+      return (
+        <SelectionWrapper key={picture.id}>
+          <IndividualImage
+            thumbnailUrl={picture.thumbnailUrl}
+            photoUrl={picture.photoUrl}
+            id={picture.id}
+            selectedPhotoId={this.state.selectedPhotoId}
+            selectPhoto={this.selectPhoto}
+          />
+        </SelectionWrapper>
+      );
+    });
 
     return (
       <PhotoOptionsWrapper>
@@ -331,8 +353,19 @@ class PhotoComponents extends Component {
               : "Please select a photo"}
           </Segment>
           <ButtonWrapper>
-            <Button primary onClick={this.handleClick}>
-              Submit Selection
+            <Button
+              primary
+              onClick={this.PreviousSwap}
+              style={{ margin: "5px", width: "200px" }}
+            >
+              Previous Swap
+            </Button>
+            <Button
+              primary
+              onClick={this.NextSwap}
+              style={{ margin: "5px", width: "200px" }}
+            >
+              Next Swap
             </Button>
           </ButtonWrapper>
         </SegmentWrapper>
@@ -382,5 +415,6 @@ const ComponentsWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  margin: 20px;
+  display: flex;
+  justify-content: space-evenly;
 `;
