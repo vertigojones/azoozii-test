@@ -275,28 +275,33 @@ class PhotoComponents extends Component {
       selectedPhotosArrayClone.push(this.state.selectedPhotoId);
       this.setState({
         selectedPhotosArray: selectedPhotosArrayClone,
-        currentSwapIndex: this.state.currentSwapIndex + 1
+        currentSwapIndex: this.state.currentSwapIndex + 1,
+        selectedPhotoId: null
       });
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
     }
   };
+
   // method for going back to previous swap
   // removes 1 from currentSwapIndex
   // function that removes photo id of that previous swap
-
-  // handleClick = async () => {
-  //   try {
-  //     const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
-  //     selectedPhotosArrayClone.push(this.state.selectedPhotoId);
-  //     this.setState({ selectedPhotosArray: selectedPhotosArrayClone,
-  //     swapIndex: this.state.swapIndex + 1 });
-  //   } catch (err) {
-  //     console.log(err);
-  //     this.setState({ err: err.message });
-  //   }
-  // };
+  PreviousSwap = async () => {
+    try {
+      this.setState({
+        currentSwapIndex: this.state.currentSwapIndex - 1
+      });
+      const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
+      if (this.state.currentSwapIndex >= 0) {
+        delete selectedPhotosArrayClone[ this.state.currentSwapIndex ]
+        this.setState({ selectedPhotosArray: selectedPhotosArrayClone });
+      }
+    } catch (err) {
+      console.log(err);
+      this.setState({ err: err.message });
+    }
+  };
 
   render() {
     const selectedPhoto = _.find(
@@ -358,14 +363,14 @@ class PhotoComponents extends Component {
               onClick={this.PreviousSwap}
               style={{ margin: "5px", width: "200px" }}
             >
-              Previous Swap
+              Previous
             </Button>
             <Button
               primary
               onClick={this.NextSwap}
               style={{ margin: "5px", width: "200px" }}
             >
-              Next Swap
+              Next
             </Button>
           </ButtonWrapper>
         </SegmentWrapper>
