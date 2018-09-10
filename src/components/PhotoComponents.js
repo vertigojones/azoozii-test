@@ -289,14 +289,14 @@ class PhotoComponents extends Component {
   // function that removes index of that previous swap from array
   PreviousSwap = async () => {
     try {
+      const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
+      if (this.state.currentSwapIndex - 1 >= 0) {
+        selectedPhotosArrayClone.splice(this.state.currentSwapIndex - 1, 1);
+      }
       this.setState({
+        selectedPhotosArray: selectedPhotosArrayClone,
         currentSwapIndex: this.state.currentSwapIndex - 1
       });
-      const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
-      if ((this.state.currentSwapIndex - 1) >= 0) {
-        selectedPhotosArrayClone.splice(this.state.currentSwapIndex -1, 1);
-      }
-      this.setState({ selectedPhotosArray: selectedPhotosArrayClone });
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
