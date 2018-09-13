@@ -259,7 +259,53 @@ class PhotoComponents extends Component {
   state = {
     selectedPhotosArray: [],
     selectedPhotoId: null,
-    currentSwapIndex: 0
+    currentSwapIndex: 0,
+    numberOfSwaps: 0,
+    nextButtonDisable: false,
+    previousButtonDisable: false
+  };
+
+  componentWillMount() {
+    this.countSwaps();
+    this.disablePreviousButton();
+    this.disableNextButton();
+  }
+
+  countSwaps = async () => {
+    try {
+      const totalSwaps =
+        testSubject.products[0].spreads[0].swaps[0].image[0].assets.length;
+      this.setState({ numberOfSwaps: totalSwaps });
+    } catch (err) {
+      console.log(err);
+      this.setState({ err: err.message });
+    }
+  };
+
+  disablePreviousButton = async () => {
+    try {
+      if (this.state.currentSwapIndex <= 0) {
+        this.setState({
+          previousButtonDisable: !this.state.previousButtonDisable
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      this.setState({ err: err.message });
+    }
+  };
+
+  disableNextButton = async () => {
+    try {
+      if (this.state.currentSwapIndex === this.state.numberOfSwaps - 1) {
+        this.setState({
+          nextButtonDisable: !this.state.nextButtonDisable
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      this.setState({ err: err.message });
+    }
   };
 
   selectPhoto = photoId => {
@@ -278,6 +324,8 @@ class PhotoComponents extends Component {
         currentSwapIndex: this.state.currentSwapIndex + 1,
         selectedPhotoId: null
       });
+      this.disableNextButton();
+      this.disablePreviousButton();
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
@@ -297,6 +345,8 @@ class PhotoComponents extends Component {
         selectedPhotosArray: selectedPhotosArrayClone,
         currentSwapIndex: this.state.currentSwapIndex - 1
       });
+      this.disablePreviousButton();
+      this.disableNextButton();
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
@@ -362,6 +412,7 @@ class PhotoComponents extends Component {
               primary
               onClick={this.PreviousSwap}
               style={{ margin: "5px", width: "200px" }}
+              disabled={this.state.previousButtonDisable}
             >
               Previous
             </Button>
@@ -369,6 +420,7 @@ class PhotoComponents extends Component {
               primary
               onClick={this.NextSwap}
               style={{ margin: "5px", width: "200px" }}
+              disabled={this.state.nextButtonDisable}
             >
               Next
             </Button>
