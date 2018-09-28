@@ -265,10 +265,8 @@ class PhotoComponents extends Component {
     previousButtonDisable: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.countSwaps();
-    this.disablePreviousButton();
-    this.disableNextButton();
   }
 
   countSwaps = async () => {
@@ -276,32 +274,6 @@ class PhotoComponents extends Component {
       const totalSwaps =
         testSubject.products[0].spreads[0].swaps[0].image[0].assets.length;
       this.setState({ numberOfSwaps: totalSwaps });
-    } catch (err) {
-      console.log(err);
-      this.setState({ err: err.message });
-    }
-  };
-
-  disablePreviousButton = async () => {
-    try {
-      if (this.state.currentSwapIndex <= 0) {
-        this.setState({
-          previousButtonDisable: !this.state.previousButtonDisable
-        });
-      }
-    } catch (err) {
-      console.log(err);
-      this.setState({ err: err.message });
-    }
-  };
-
-  disableNextButton = async () => {
-    try {
-      if (this.state.currentSwapIndex === this.state.numberOfSwaps - 1) {
-        this.setState({
-          nextButtonDisable: !this.state.nextButtonDisable
-        });
-      }
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
@@ -324,8 +296,6 @@ class PhotoComponents extends Component {
         currentSwapIndex: this.state.currentSwapIndex + 1,
         selectedPhotoId: null
       });
-      this.disableNextButton();
-      this.disablePreviousButton();
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
@@ -340,13 +310,17 @@ class PhotoComponents extends Component {
       const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
       if (this.state.currentSwapIndex - 1 >= 0) {
         selectedPhotosArrayClone.splice(this.state.currentSwapIndex - 1, 1);
+        this.setState({
+          selectedPhotosArray: selectedPhotosArrayClone,
+          currentSwapIndex: this.state.currentSwapIndex - 1
+        });
+      } else if (this.state.currentSwapIndex - 1 < 0) {
+        selectedPhotosArrayClone.splice(this.state.currentSwapIndex - 1, 1);
+        this.setState({
+          selectedPhotosArray: selectedPhotosArrayClone,
+          currentSwapIndex: this.state.numberOfSwaps - 1
+        });
       }
-      this.setState({
-        selectedPhotosArray: selectedPhotosArrayClone,
-        currentSwapIndex: this.state.currentSwapIndex - 1
-      });
-      this.disablePreviousButton();
-      this.disableNextButton();
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
