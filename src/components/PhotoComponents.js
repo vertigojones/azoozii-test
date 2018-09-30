@@ -260,9 +260,7 @@ class PhotoComponents extends Component {
     selectedPhotosArray: [],
     selectedPhotoId: null,
     currentSwapIndex: 0,
-    numberOfSwaps: 0,
-    nextButtonDisable: false,
-    previousButtonDisable: false
+    numberOfSwaps: 0
   };
 
   componentDidMount() {
@@ -284,18 +282,32 @@ class PhotoComponents extends Component {
     this.setState({ selectedPhotoId: photoId });
   };
 
-  // method for moving on to next swap
-  // function that updates selectedPhotosArray with selected photo id
-  // then adds 1 to currentSwapIndex
+  // method for moving on to next swap:
+  // pushes photo id as index currentswapIndex to selectedPhotosArray √
+  // adds 1 to currentSwapIndex √
+  // moves to first swap if current index equals number of swaps √
+  // if swap already has a selection, display it
   NextSwap = async () => {
     try {
       const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
-      selectedPhotosArrayClone.push(this.state.selectedPhotoId);
-      this.setState({
-        selectedPhotosArray: selectedPhotosArrayClone,
-        currentSwapIndex: this.state.currentSwapIndex + 1,
-        selectedPhotoId: null
-      });
+      selectedPhotosArrayClone.splice(
+        this.state.currentSwapIndex,
+        1,
+        this.state.selectedPhotoId
+      );
+      if (this.state.currentSwapIndex + 1 === this.state.numberOfSwaps) {
+        this.setState({
+          selectedPhotosArray: selectedPhotosArrayClone,
+          currentSwapIndex: 0,
+          selectedPhotoId: this.state.selectedPhotosArray[this.state.currentSwapIndex]
+        });
+      } else {
+        this.setState({
+          selectedPhotosArray: selectedPhotosArrayClone,
+          currentSwapIndex: this.state.currentSwapIndex + 1,
+          selectedPhotoId: this.state.selectedPhotosArray[this.state.currentSwapIndex]
+        });
+      }
     } catch (err) {
       console.log(err);
       this.setState({ err: err.message });
@@ -303,22 +315,31 @@ class PhotoComponents extends Component {
   };
 
   // method for going back to previous swap
-  // removes 1 from currentSwapIndex
-  // function that removes index of that previous swap from array
+  // pushes photo id as index currentswapIndex to selectedPhotosArray √
+  // removes 1 from currentSwapIndex √
+  // moves to last swap if current index is 0 √
+  // if swap already has a selection, display it
   PreviousSwap = async () => {
     try {
       const selectedPhotosArrayClone = [...this.state.selectedPhotosArray];
+      selectedPhotosArrayClone.splice(
+        this.state.currentSwapIndex,
+        1,
+        this.state.selectedPhotoId
+      );
       if (this.state.currentSwapIndex - 1 >= 0) {
         selectedPhotosArrayClone.splice(this.state.currentSwapIndex - 1, 1);
         this.setState({
           selectedPhotosArray: selectedPhotosArrayClone,
-          currentSwapIndex: this.state.currentSwapIndex - 1
+          currentSwapIndex: this.state.currentSwapIndex - 1,
+          selectedPhotoId: this.state.selectedPhotosArray[this.state.currentSwapIndex]
         });
       } else if (this.state.currentSwapIndex - 1 < 0) {
         selectedPhotosArrayClone.splice(this.state.currentSwapIndex - 1, 1);
         this.setState({
           selectedPhotosArray: selectedPhotosArrayClone,
-          currentSwapIndex: this.state.numberOfSwaps - 1
+          currentSwapIndex: this.state.numberOfSwaps - 1,
+          selectedPhotoId: this.state.selectedPhotosArray[this.state.currentSwapIndex]
         });
       }
     } catch (err) {
