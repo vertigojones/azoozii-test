@@ -260,7 +260,8 @@ class PhotoComponents extends Component {
     selectedPhotosArray: [],
     selectedPhotoId: null,
     currentSwapIndex: 0,
-    numberOfSwaps: 0
+    numberOfSwaps: 0,
+    previousButtonDisable: true
   };
 
   componentDidMount() {
@@ -295,17 +296,24 @@ class PhotoComponents extends Component {
         1,
         this.state.selectedPhotoId
       );
+
       if (this.state.currentSwapIndex + 1 === this.state.numberOfSwaps) {
         this.setState({
           selectedPhotosArray: selectedPhotosArrayClone,
           currentSwapIndex: 0,
-          selectedPhotoId: this.state.selectedPhotosArray[this.state.currentSwapIndex]
+          selectedPhotoId: this.state.selectedPhotosArray[
+            this.state.currentSwapIndex
+          ],
+          previousButtonDisable: false
         });
       } else {
         this.setState({
           selectedPhotosArray: selectedPhotosArrayClone,
           currentSwapIndex: this.state.currentSwapIndex + 1,
-          selectedPhotoId: this.state.selectedPhotosArray[this.state.currentSwapIndex]
+          selectedPhotoId: this.state.selectedPhotosArray[
+            this.state.currentSwapIndex
+          ],
+          previousButtonDisable: false
         });
       }
     } catch (err) {
@@ -327,19 +335,24 @@ class PhotoComponents extends Component {
         1,
         this.state.selectedPhotoId
       );
+      
       if (this.state.currentSwapIndex - 1 >= 0) {
         selectedPhotosArrayClone.splice(this.state.currentSwapIndex - 1, 1);
         this.setState({
           selectedPhotosArray: selectedPhotosArrayClone,
           currentSwapIndex: this.state.currentSwapIndex - 1,
-          selectedPhotoId: this.state.selectedPhotosArray[this.state.currentSwapIndex]
+          selectedPhotoId: this.state.selectedPhotosArray[
+            this.state.currentSwapIndex
+          ]
         });
       } else if (this.state.currentSwapIndex - 1 < 0) {
         selectedPhotosArrayClone.splice(this.state.currentSwapIndex - 1, 1);
         this.setState({
           selectedPhotosArray: selectedPhotosArrayClone,
           currentSwapIndex: this.state.numberOfSwaps - 1,
-          selectedPhotoId: this.state.selectedPhotosArray[this.state.currentSwapIndex]
+          selectedPhotoId: this.state.selectedPhotosArray[
+            this.state.currentSwapIndex
+          ]
         });
       }
     } catch (err) {
@@ -415,7 +428,6 @@ class PhotoComponents extends Component {
               primary
               onClick={this.NextSwap}
               style={{ margin: "5px", width: "200px" }}
-              disabled={this.state.nextButtonDisable}
             >
               Next
             </Button>
